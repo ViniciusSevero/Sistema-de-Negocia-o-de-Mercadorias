@@ -1,6 +1,7 @@
 package br.com.snm.servlets;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,16 +17,17 @@ import br.com.snm.bo.NegociacaoBO;
 @WebServlet("/Negociacao")
 public class NegociacaoServlet extends HttpServlet{
 	
-	private NegociacaoBO bo;
-	
-	public NegociacaoServlet() throws Exception {
-		bo = new NegociacaoBO();
-	}
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String acao = req.getParameter("acao");
-		//System.out.println("Ação = "+acao);
+		
+		NegociacaoBO bo = null;
+		try {
+			bo = new NegociacaoBO(getCon(req));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 		switch (acao) {
 		case "cadastrar":
 			try {
@@ -65,6 +67,13 @@ public class NegociacaoServlet extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		NegociacaoBO bo = null;
+		try {
+			bo = new NegociacaoBO(getCon(req));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+				
 		if(req.getParameter("acao") != null && req.getParameter("acao").equals("buscar")){
 			int codMercadoria = Integer.parseInt(req.getParameter("codMercadoria"));
 			try {
@@ -101,4 +110,9 @@ public class NegociacaoServlet extends HttpServlet{
 			req.getParameter("tipoNegocio")
 		);
 	}
+	public Connection getCon(HttpServletRequest request){
+		return (Connection) request.getAttribute("conexao");
+	}
+	
+
 }

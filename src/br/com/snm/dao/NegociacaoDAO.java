@@ -13,8 +13,8 @@ import br.com.snm.connection.ConexaoFactory;
 public class NegociacaoDAO {
 	private Connection con;
 	
-	public NegociacaoDAO() throws Exception {
-		this.con = ConexaoFactory.getConnection();
+	public NegociacaoDAO(Connection con) throws Exception {
+		this.con = con;
 	}
 	
 	public void add(Negociacao n) throws Exception{

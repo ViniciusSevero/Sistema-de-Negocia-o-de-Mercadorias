@@ -1,5 +1,6 @@
 package br.com.snm.bo;
 
+import java.sql.Connection;
 import java.util.List;
 
 import br.com.snm.beans.Negociacao;
@@ -8,8 +9,8 @@ import br.com.snm.dao.NegociacaoDAO;
 public class NegociacaoBO {
 	private NegociacaoDAO dao;
 	
-	public NegociacaoBO() throws Exception {
-		this.dao = new NegociacaoDAO();
+	public NegociacaoBO(Connection con) throws Exception {
+		this.dao = new NegociacaoDAO(con);
 	}
 	
 	public void add(Negociacao n) throws Exception{
